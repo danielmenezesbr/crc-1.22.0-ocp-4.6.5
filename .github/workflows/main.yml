@@ -9,12 +9,21 @@ jobs:
     runs-on: macos-10.15
 
     steps:
-
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            /Users/runner/work/crc-1.22.0-ocp-4.6.5/crc-1.22.0-ocp-4.6.5/crc-installer-macos-1.22.0-amd64.pkg
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+          
       - name: Update packages
         run: |
           curl https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg -o crc-installer-macos-1.22.0-amd64.pkg
           mkdir crc
+          free -m
           ls -la
           pwd
-          installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
+          sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
           ls ./crc
+          cd crc
+          
