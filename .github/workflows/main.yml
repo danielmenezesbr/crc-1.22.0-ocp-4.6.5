@@ -19,7 +19,7 @@ jobs:
       - name: Update packages
         run: |
           ls -la
-          wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg" 
+          [ ! -e "crc-installer-macos-1.22.0-amd64.pkg" ] && wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
       - name: install
         run: |
           mkdir crc
