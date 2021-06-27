@@ -19,7 +19,17 @@ jobs:
       - name: Update packages
         run: |
           set -exuo pipefail
+          brew uninstall docker
+          brew uninstall docker-machine
+          brew uninstall docker-machine-driver-hyperkit
+          brew uninstall hyperkit
+          curl -o Docker.dmg https://desktop.docker.com/mac/stable/amd64/Docker.dmg
+          sudo hdiutil attach Docker.dmg
+          cd /Volumes/Docker
           ls -la
+          sudo cp -rf Docker.app /Applications
+          sudo hdiutil detach /Volumes/Docker
+          cd ~
           (ls crc-installer-macos-1.22.0-amd64.pkg && echo "file exists") || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
       - name: install
         run: |
