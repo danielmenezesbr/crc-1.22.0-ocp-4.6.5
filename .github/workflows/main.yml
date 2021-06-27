@@ -18,9 +18,8 @@ jobs:
           
       - name: Update packages
         run: |
-          curl https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg -o crc-installer-macos-1.22.0-amd64.pkg
+          curl -C https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg -o crc-installer-macos-1.22.0-amd64.pkg
           mkdir crc
-          free -m
           ls -la
           pwd
           sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
