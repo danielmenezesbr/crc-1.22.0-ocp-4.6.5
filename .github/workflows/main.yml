@@ -35,7 +35,8 @@ jobs:
         run: |
           crc version
           crc setup
-          crc config set pull-secret-file $pwd/pull-secret.txt
+          crc config set pull-secret-file $(pwd)/pull-secret.txt
           crc config set memory 10000
+          crc config view
           crc start
           
