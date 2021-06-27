@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macos-10.15
+
+    steps:
+
+      - name: Update packages
+        run: |
+          curl https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg -o crc-installer-macos-1.22.0-amd64.pkg
+          mkdir crc
+          ls -la
+          pwd
+          installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target ./crc
+          ls ./crc
