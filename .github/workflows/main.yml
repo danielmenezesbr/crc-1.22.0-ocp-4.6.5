@@ -25,7 +25,17 @@ jobs:
         run: |
           mkdir crc
           sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
+          crc version
+      - name: pull secret
+        run: |
+          cat >pull-secret.txt <<EOL
+          ${{ secrets.PULL_SECRET }}
+          EOL
       - name: Setup
         run: |
           crc version
+          crc setup
+          crc config set pull-secret-file $pwd/pull-secret.txt
+          crc config set memory 10000
+          crc start
           
