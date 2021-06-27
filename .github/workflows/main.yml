@@ -9,44 +9,56 @@ jobs:
     runs-on: macos-10.15
 
     steps:
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            /Users/runner/work/crc-1.22.0-ocp-4.6.5/crc-1.22.0-ocp-4.6.5/crc-installer-macos-1.22.0-amd64.pkg
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+    
+      - name: Install Minikube on Mac
+        if: startsWith(matrix.os, 'macOS')
+        run:  brew install minikube
+      - name: Setup Minikube for Mac
+        if: startsWith(matrix.os, 'macOS')
+        run:  minikube start
+      - name: Test Minikube
+        run: |
+          kubectl get nodes
+          kubectl config view
           
-      - name: Update packages
-        run: |
-          set -exuo pipefail
-          #brew uninstall docker
-          #brew uninstall docker-machine
-          #brew uninstall docker-machine-driver-hyperkit
-          #brew uninstall hyperkit
-          curl -o Docker.dmg https://desktop.docker.com/mac/stable/amd64/Docker.dmg
-          sudo hdiutil attach Docker.dmg
-          cd /Volumes/Docker
-          ls -la
-          sudo cp -rf Docker.app /Applications
-          #sudo hdiutil detach /Volumes/Docker
-          cd ~
-          (ls crc-installer-macos-1.22.0-amd64.pkg && echo "file exists") || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
-      - name: install
-        run: |
-          mkdir crc
-          sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
-          crc version
-      - name: pull secret
-        run: |
-          cat >pull-secret.txt <<EOL
-          ${{ secrets.PULL_SECRET }}
-          EOL
-      - name: Setup
-        run: |
-          crc version
-          crc setup
-          crc config set pull-secret-file $(pwd)/pull-secret.txt
-          crc config set memory 10000
-          crc config view
-          crc start
+#      - name: Cache
+#        uses: actions/cache@v2
+#        with:
+#          path: |
+#            /Users/runner/work/crc-1.22.0-ocp-4.6.5/crc-1.22.0-ocp-4.6.5/crc-installer-macos-1.22.0-amd64.pkg
+#          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+#          
+#      - name: Update packages
+#        run: |
+#          set -exuo pipefail
+#          #brew uninstall docker
+#          #brew uninstall docker-machine
+#          #brew uninstall docker-machine-driver-hyperkit
+#          #brew uninstall hyperkit
+#          curl -o Docker.dmg https://desktop.docker.com/mac/stable/amd64/Docker.dmg
+#          sudo hdiutil attach Docker.dmg
+#          cd /Volumes/Docker
+#          ls -la
+#          sudo cp -rf Docker.app /Applications
+#          #sudo hdiutil detach /Volumes/Docker
+#          cd ~
+#          (ls crc-installer-macos-1.22.0-amd64.pkg && echo "file exists") || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
+#      - name: install
+#        run: |
+#          mkdir crc
+#          sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
+#          crc version
+#      - name: pull secret
+#        run: |
+#          cat >pull-secret.txt <<EOL
+#          ${{ secrets.PULL_SECRET }}
+#          EOL
+#      - name: Setup
+#        run: |
+#          crc version
+#          crc setup
+#          crc config set pull-secret-file $(pwd)/pull-secret.txt
+#          crc config set memory 10000
+#          crc config view
+#          crc start
           
