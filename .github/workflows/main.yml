@@ -20,9 +20,11 @@ jobs:
         run: |
           wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg" 
           mkdir crc
-          ls -la
-          pwd
           sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
-          ls ./crc
+      - name: Setup
+        run: |
+          ls -la ./crc
           cd crc
+          pwd
+          ls -la
           
