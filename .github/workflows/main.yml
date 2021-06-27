@@ -20,7 +20,7 @@ jobs:
         run: |
           set -exuo pipefail
           ls -la
-          (ls $pwd/crc-installer-macos-1.22.0-amd64.pkg && echo yes) || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
+          (ls crc-installer-macos-1.22.0-amd64.pkg && echo yes) || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
       - name: install
         run: |
           mkdir crc
