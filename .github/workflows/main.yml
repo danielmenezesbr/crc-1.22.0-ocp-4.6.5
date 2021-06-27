@@ -16,5 +16,5 @@ jobs:
           mkdir crc
           ls -la
           pwd
-          installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target ./crc
+          installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
           ls ./crc
