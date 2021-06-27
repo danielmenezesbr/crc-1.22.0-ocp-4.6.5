@@ -19,9 +19,9 @@ jobs:
       - name: Update packages
         run: |
           set -exuo pipefail
-          brew uninstall docker
-          brew uninstall docker-machine
-          brew uninstall docker-machine-driver-hyperkit
+          #brew uninstall docker
+          #brew uninstall docker-machine
+          #brew uninstall docker-machine-driver-hyperkit
           brew uninstall hyperkit
           curl -o Docker.dmg https://desktop.docker.com/mac/stable/amd64/Docker.dmg
           sudo hdiutil attach Docker.dmg
