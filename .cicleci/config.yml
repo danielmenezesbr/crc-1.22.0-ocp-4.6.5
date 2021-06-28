@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs: # a basic unit of work in a run
+  test: # your job name
+    macos:
+      xcode: 11.3.0 # indicate our selected version of Xcode
+    steps: # a series of commands to run
+      - checkout  # pull down code from your version control system.
+      - run:
+          name: Run Unit Tests
+          command: echo "hi"
+          
+workflows:
+  version: 2
+  test_build:
+    jobs:
+      - test
