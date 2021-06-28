@@ -11,9 +11,11 @@ jobs:
     steps:
     
       - name: Install Minikube on Mac
-        run:  brew install minikube
+        run:  |
+          brew install hyperkit
+          brew install minikube
       - name: Setup Minikube for Mac
-        run:  minikube start
+        run:  minikube start --driver=hyperkit
       - name: Test Minikube
         run: |
           kubectl get nodes
