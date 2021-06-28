@@ -10,16 +10,16 @@ jobs:
 
     steps:
     
-      - name: Install Minikube on Mac
+      - name: Install Hyperkit
         run:  |
           brew install hyperkit
-          brew install minikube
-      - name: Setup Minikube for Mac
-        run:  minikube start --driver=hyperkit
-      - name: Test Minikube
-        run: |
-          kubectl get nodes
-          kubectl config view
+          #brew install minikube
+      #- name: Setup Minikube for Mac
+      #  run:  minikube start --driver=hyperkit
+      #- name: Test Minikube
+      #  run: |
+      #    kubectl get nodes
+      #    kubectl config view
           
 #      - name: Cache
 #        uses: actions/cache@v2
@@ -43,22 +43,24 @@ jobs:
 #          #sudo hdiutil detach /Volumes/Docker
 #          cd ~
 #          (ls crc-installer-macos-1.22.0-amd64.pkg && echo "file exists") || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
-#      - name: install
-#        run: |
-#          mkdir crc
-#          sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
-#          crc version
-#      - name: pull secret
-#        run: |
-#          cat >pull-secret.txt <<EOL
-#          ${{ secrets.PULL_SECRET }}
-#          EOL
-#      - name: Setup
-#        run: |
-#          crc version
-#          crc setup
-#          crc config set pull-secret-file $(pwd)/pull-secret.txt
-#          crc config set memory 10000
-#          crc config view
-#          crc start
+      - name: install
+        run: |
+          cd ~
+          (ls crc-installer-macos-1.22.0-amd64.pkg && echo "file exists") || wget -nc -q -O crc-installer-macos-1.22.0-amd64.pkg "https://mirror.openshift.com/pub/openshift-v4/clients/crc/1.22.0/crc-installer-macos-1.22.0-amd64.pkg"
+          mkdir crc
+          sudo installer -pkg crc-installer-macos-1.22.0-amd64.pkg -target $(pwd)/crc
+          crc version
+      - name: pull secret
+        run: |
+          cat >pull-secret.txt <<EOL
+          ${{ secrets.PULL_SECRET }}
+          EOL
+      - name: Setup
+        run: |
+          crc version
+          crc setup
+          crc config set pull-secret-file $(pwd)/pull-secret.txt
+          crc config set memory 10000
+          crc config view
+          crc start
           
